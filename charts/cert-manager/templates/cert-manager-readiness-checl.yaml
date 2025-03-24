@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cert-manager-readiness-check
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    spec:
+      containers:
+      - name: check-cert-manager
+        image: bitnami/kubectl:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "Starting readiness check for cert-manager..."
+          while true; do
+            READY=$(kubectl get pods -n cert-manager -l app.kubernetes.io/name=cert-manager -o jsonpath='{.items[*].status.containerStatuses[*].ready}')
+            if echo "$READY" | grep -q true; then
+              echo "cert-manager is ready."
+              exit 0
+            else
+              echo "Waiting for cert-manager to be ready..."
+              kubectl get pods -n cert-manager
+              sleep 5
+            fi
+          done
+      restartPolicy: Never
+  backoffLimit: 4

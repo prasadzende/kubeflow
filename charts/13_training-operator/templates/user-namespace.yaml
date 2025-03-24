@@ -1,0 +1,16 @@
+apiVersion: v1
+data:
+  profile-name: kf-dev-profile
+  user: prasad.zende@globallogic.com
+kind: ConfigMap
+metadata:
+  name: default-install-config-mdtd57g8hh
+---
+apiVersion: kubeflow.org/v1beta1
+kind: Profile
+metadata:
+  name: kf-dev-profile
+spec:
+  owner:
+    kind: User
+    name: prasad.zende@globallogic.com
