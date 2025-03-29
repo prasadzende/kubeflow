@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: helm-chart-1
+  namespace: argocd
+spec:
+  project: my-helm-project
+  source:
+    repoURL: https://github.com/your-repo/my-helm-charts
+    targetRevision: argo
+    path: helm-chart-1
+  destination:
+    server: https://192.168.1.100:16443
+    namespace: helm-chart-1-namespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

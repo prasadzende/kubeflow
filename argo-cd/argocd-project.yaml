@@ -1,0 +1,12 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: kubeflow-project
+  namespace: argocd
+spec:
+  description: A project for deploying kubeflow charts
+  sourceRepos:
+    - https://github.com/prasadzende/kubeflow/tree/helm/charts
+  destinations:
+    - namespace: '*'
+      server: https://192.168.1.100:16443
