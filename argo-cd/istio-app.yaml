@@ -1,18 +1,28 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: helm-chart-1
+  name: istio-chart
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
-  project: my-helm-project
+  project: kubeflow-project
   source:
-    repoURL: https://github.com/your-repo/my-helm-charts
+    repoURL: https://github.com/prasadzende/kubeflow.git
     targetRevision: argo
-    path: helm-chart-1
+    path: charts/1_istio
+    helm:
+      valueFiles:
+        - values.yaml
   destination:
-    server: https://192.168.1.100:16443
-    namespace: helm-chart-1-namespace
+    server: https://kubernetes.default.svc
+    namespace: istio-system
+  # Sync policy to automatically sync the application
+  # and prune resources that are no longer tracked
+  # and self heal resources that are out of sync  
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+        - CreateNamespace=true
