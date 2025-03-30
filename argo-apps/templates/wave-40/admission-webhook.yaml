@@ -1,11 +1,11 @@
-{{ if .Values.deployments.kserve.enabled }}
+{{ if .Values.deployments.admission-webhook.enabled }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kserve-service
+  name: admission-webhook
   namespace: {{ .Values.argoCD.namespace }}
   annotations:
-    argocd.argoproj.io/sync-wave: "30"
+    argocd.argoproj.io/sync-wave: "40"
     argocd.argoproj.io/manifest-generate-paths: .
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -15,11 +15,11 @@ spec:
     namespace: kubeflow
   project: {{ .Values.projectName }}
   source:
-    path: charts/7_kserve
+    path: charts/9_admission-webhook
     repoURL: {{ .Values.sourceRepository }}
     targetRevision: {{ .Values.ref }}
     helm:
-      releaseName: kserve-service
+      releaseName: admission-webhook
       valueFiles:
         - values.yaml
   syncPolicy:

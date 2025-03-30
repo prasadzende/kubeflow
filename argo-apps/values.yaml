@@ -25,3 +25,9 @@ deployments:
 
   kserve:
     enabled: true
+  
+  central-dashboard:
+    enabled: true
+
+  admission-webhook:
+    enabled: true
