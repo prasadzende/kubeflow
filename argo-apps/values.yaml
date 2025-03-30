@@ -16,3 +16,6 @@ deployments:
   
   knative:
     enabled: true
+  
+  auth:
+    enabled: true

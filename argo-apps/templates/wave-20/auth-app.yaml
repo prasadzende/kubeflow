@@ -1,4 +1,4 @@
-{{ if .Values.deployments.oauthProxy.enabled }}
+{{ if .Values.deployments.auth.enabled }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
