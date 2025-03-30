@@ -1,15 +1,19 @@
+{{ if .Values.deployments.istio.enabled }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: istio-chart
-  namespace: argocd
+  namespace: {{ .Values.argoCD.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/manifest-generate-paths: .
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: kubeflow-project
+  project: {{ .Values.projectName }}
   source:
-    repoURL: https://github.com/prasadzende/kubeflow.git
-    targetRevision: argo
+    repoURL: {{ .Values.sourceRepository }}
+    targetRevision: {{ .Values.ref }}
     path: charts/1_istio
     helm:
       valueFiles:
@@ -26,3 +30,10 @@ spec:
       selfHeal: true
     syncOptions:
         - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: "5s"
+        factor: 2
+        maxDuration: "3m"
+{{ end }}

@@ -1,0 +1,103 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mlops-infra-orchestrator
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: in-cluster
+  project: mlops-project
+  source:
+    path: argo-apps
+    repoURL: https://github.com/prasadzende/kubeflow.git
+    # targetRevision: ${GITREF}
+    helm:
+      releaseName: mlops-infra-orchestrator
+      ignoreMissingValueFiles: true
+      valueFiles:
+        - values.yaml
+      # parameters:
+      # - name: ref
+      #   value: ${SHORT_REF}
+      # - name: environment
+      #   value: ${ENV_NAME}
+      # - name: global.environment
+      #   value: ${ENV_NAME}
+      # # centralDashboard
+      # - name: deployments.centralDashboard.helmValues.image.registry
+      #   value: ${ACR_NAME_FULL}
+      # - name: deployments.centralDashboard.helmValues.logoutUrl
+      #   value: /oauth2/sign_out?rd=https%3A%2F%2F${COMMON_PLATFORM_PORTAL_UI_URL}%2Flogout
+      # # evidently
+      # - name: deployments.evidently.helmValues.environment
+      #   value: ${ENV_NAME}
+      # - name: deployments.evidently.helmValues.image.registry
+      #   value: ${ACR_NAME_FULL}
+      # - name: deployments.evidently.helmValues.secretProvider.azKeyvaultSecretProvider.keyVaultName
+      #   value: ${KEYVAULT_NAME}
+      # - name: deployments.evidently.helmValues.secretProvider.azKeyvaultSecretProvider.userAssignedIdentityID
+      #   value: ${KEYVAULT_IDENTITY_ID}
+      # - name: deployments.evidently.helmValues.secretProvider.azKeyvaultSecretProvider.tenantID
+      #   value: ${TENANT_ID}
+      # # jupyter
+      # - name: deployments.jupyter.helmValues.image.registry
+      #   value: ${ACR_NAME_FULL}
+      # # knative
+      # - name: deployments.knative.serving.helmValues.config.deployment.registriesSkippingTagResolving
+      #   value: ${ACR_NAME_FULL}
+      # # kubeflowPipelines
+      # - name: deployments.kubeflowPipelines.helmValues.secretProvider.azKeyvaultSecretProvider.keyVaultName
+      #   value: ${KEYVAULT_NAME}
+      # - name: deployments.kubeflowPipelines.helmValues.secretProvider.azKeyvaultSecretProvider.userAssignedIdentityID
+      #   value: ${KEYVAULT_IDENTITY_ID}
+      # - name: deployments.kubeflowPipelines.helmValues.secretProvider.azKeyvaultSecretProvider.tenantID
+      #   value: ${TENANT_ID}
+      # # mlflow
+      # - name: deployments.mlflow.helmValues.image.registry
+      #   value: ${ACR_NAME_FULL}
+      # - name: deployments.mlflow.helmValues.backendStore.postgres.host
+      #   value: ${COMMON_POSTGRES_SA_HOST_INTERNAL}
+      # - name: deployments.mlflow.helmValues.secretProvider.azKeyvaultSecretProvider.keyVaultName
+      #   value: ${KEYVAULT_NAME}
+      # - name: deployments.mlflow.helmValues.secretProvider.azKeyvaultSecretProvider.userAssignedIdentityID
+      #   value: ${KEYVAULT_IDENTITY_ID}
+      # - name: deployments.mlflow.helmValues.secretProvider.azKeyvaultSecretProvider.tenantID
+      #   value: ${TENANT_ID}
+      # # oauthProxy
+      # - name: deployments.oauthProxy.helmValues.image.registry
+      #   value: ${ACR_NAME_FULL}
+      # - name: deployments.oauthProxy.helmValues.redis.image.registry
+      #   value: ${ACR_NAME_FULL}
+      # - name: deployments.oauthProxy.helmValues.redis.exporter.image.registry
+      #   value: ${ACR_NAME_FULL}
+      # - name: deployments.oauthProxy.helmValues.global.oidcIssuerUrl
+      #   value: https://${COMMON_KEYCLOAK_URL}/auth/realms/genai
+      # - name: deployments.oauthProxy.helmValues.global.redirectUrl
+      #   value: https://${COMMON_MLOPS_PLATFORM_URL}/oauth2/callback
+      # - name: deployments.oauthProxy.helmValues.global.cookieDomain
+      #   value: .${PUBLIC_DOMAIN_NAME}
+      # - name: deployments.oauthProxy.helmValues.extraEnv.OAUTH2_PROXY_WHITELIST_DOMAINS
+      #   value: '*.${PUBLIC_DOMAIN_NAME}'
+      # - name: deployments.oauthProxy.helmValues.secretProvider.azKeyvaultSecretProvider.keyVaultName
+      #   value: ${KEYVAULT_NAME}
+      # - name: deployments.oauthProxy.helmValues.secretProvider.azKeyvaultSecretProvider.userAssignedIdentityID
+      #   value: ${KEYVAULT_IDENTITY_ID}
+      # - name: deployments.oauthProxy.helmValues.secretProvider.azKeyvaultSecretProvider.tenantID
+      #   value: ${TENANT_ID}
+      # # staticFiles
+      # - name: deployments.staticFiles.helmValues.ingress.name
+      #   value: mlops-platform-ingress-${ENV_NAME}
+      # - name: deployments.staticFiles.helmValues.ingress.host
+      #   value: ${COMMON_MLOPS_PLATFORM_URL}
+      # - name: deployments.staticFiles.helmValues.ingress.tlsSecretName
+      #   value: mlops-pfm-${ENV_NAME}-hitachi-ai
+  syncPolicy:
+    automated:
+      allowEmpty: true
+      prune: false
+      selfHeal: true
+    syncOptions:
+    - PruneLast=true
+    - ApplyOutOfSyncOnly=true

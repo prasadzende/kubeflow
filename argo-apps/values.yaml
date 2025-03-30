@@ -1,0 +1,12 @@
+sourceRepository: https://github.com/prasadzende/kubeflow.git
+ref: "argo"
+projectName: "kubeflow-project"
+
+argoCD:
+  namespace: "argocd"
+
+deployments:
+
+  istio:
+    enabled: true
+    helmValues: {}
