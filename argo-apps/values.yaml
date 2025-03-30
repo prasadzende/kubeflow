@@ -29,5 +29,5 @@ deployments:
   centralDashboard:
     enabled: true
 
-  admission-webhook:
+  admissionWebhook:
     enabled: true

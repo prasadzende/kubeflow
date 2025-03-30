@@ -1,4 +1,4 @@
-{{ if .Values.deployments.admission-webhook.enabled }}
+{{ if .Values.deployments.admissionWebhook.enabled }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
