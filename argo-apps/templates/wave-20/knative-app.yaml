@@ -20,8 +20,8 @@ spec:
     targetRevision: {{ .Values.ref }}
     helm:
       releaseName: knative-service
-      # valuesObject:
-      # {{- .Values.deployments.oauthProxy.helmValues | toYaml | nindent 8 }}
+      valueFiles:
+        - values.yaml
   syncPolicy:
     automated:
       prune: true
