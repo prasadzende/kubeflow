@@ -1,11 +1,11 @@
-{{ if .Values.deployments.admissionWebhook.enabled }}
+{{ if .Values.deployments.pvc.enabled }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: admission-webhook
+  name: pvc
   namespace: {{ .Values.argoCD.namespace }}
   annotations:
-    argocd.argoproj.io/sync-wave: "40"
+    argocd.argoproj.io/sync-wave: "50"
     argocd.argoproj.io/manifest-generate-paths: .
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -15,11 +15,11 @@ spec:
     namespace: kubeflow
   project: {{ .Values.projectName }}
   source:
-    path: charts/9_admission-webhook
+    path: charts/11_pvc
     repoURL: {{ .Values.sourceRepository }}
     targetRevision: {{ .Values.ref }}
     helm:
-      releaseName: admission-webhook
+      releaseName: pvc
       valueFiles:
         - values.yaml
   syncPolicy:

@@ -31,3 +31,15 @@ deployments:
 
   admissionWebhook:
     enabled: true
+  
+  notebooks:
+    enabled: true
+
+  pvc:
+    enabled: true
+
+  profiles:
+    enabled: true
+
+  trainingOperator:
+    enabled: true
