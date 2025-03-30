@@ -7,10 +7,10 @@ metadata:
   - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    name: in-cluster
+    server: https://kubernetes.default.svc
   project: mlops-project
   source:
-    path: argo-apps
+    path: argo-apps/
     repoURL: https://github.com/prasadzende/kubeflow.git
     # targetRevision: ${GITREF}
     helm:
