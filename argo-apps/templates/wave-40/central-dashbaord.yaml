@@ -15,7 +15,7 @@ spec:
     namespace: kubeflow
   project: {{ .Values.projectName }}
   source:
-    path: charts/8_kf-central-dashboard
+    path: charts/8_central-dashboard
     repoURL: {{ .Values.sourceRepository }}
     targetRevision: {{ .Values.ref }}
     helm:
