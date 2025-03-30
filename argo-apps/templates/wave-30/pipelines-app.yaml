@@ -15,7 +15,7 @@ spec:
     namespace: kubeflow
   project: {{ .Values.projectName }}
   source:
-    path: charts/6_kf-pipeline
+    path: charts/6_kf-pipelines
     repoURL: {{ .Values.sourceRepository }}
     targetRevision: {{ .Values.ref }}
     helm:
