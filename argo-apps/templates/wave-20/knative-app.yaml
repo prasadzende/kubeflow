@@ -1,0 +1,37 @@
+{{ if .Values.deployments.knative.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: knative-service
+  namespace: {{ .Values.argoCD.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "20"
+    argocd.argoproj.io/manifest-generate-paths: .
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: knative
+  project: {{ .Values.projectName }}
+  source:
+    path: charts/4_knative
+    repoURL: {{ .Values.sourceRepository }}
+    targetRevision: {{ .Values.ref }}
+    helm:
+      releaseName: knative-service
+      # valuesObject:
+      # {{- .Values.deployments.oauthProxy.helmValues | toYaml | nindent 8 }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+        - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: "5s"
+        factor: 2
+        maxDuration: "3m"
+{{ end }}

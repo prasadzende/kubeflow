@@ -12,7 +12,7 @@ spec:
   source:
     path: argo-apps/
     repoURL: https://github.com/prasadzende/kubeflow.git
-    # targetRevision: ${GITREF}
+    targetRevision: "argo"
     helm:
       releaseName: mlops-infra-orchestrator
       ignoreMissingValueFiles: true

@@ -10,3 +10,9 @@ deployments:
   istio:
     enabled: true
     helmValues: {}
+
+  oauthProxy:
+    enabled: true
+  
+  knative:
+    enabled: true
