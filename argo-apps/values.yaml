@@ -19,3 +19,9 @@ deployments:
   
   auth:
     enabled: true
+
+  pipelines:
+    enabled: true
+
+  kserve:
+    enabled: true
